@@ -12,10 +12,7 @@ public class Main {
 
     private static void day1() {
         Day1 day1 = new Day1();
-        long result1 = day1.runPart1();
-        System.out.println("day 1 part 1: " + result1);
-        long result2 = day1.runPart2();
-        System.out.println("day 1 part 2 : " + result2);
+        day1.run();
     }
 
     private static void day0() {
