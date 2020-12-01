@@ -5,11 +5,16 @@ import com.simongarton.advent_of_code.days.*;
 public class Main {
 
     public static void main(String[] args) {
-        //day0();
-        day1();
-        day2();
-        day3();
-        day4();
+//        day1();
+//        day2();
+//        day3();
+//        day4();
+        day5();
+    }
+
+    private static void day5() {
+        Day5 day5 = new Day5();
+        day5.run();
     }
 
     private static void day4() {
@@ -30,11 +35,5 @@ public class Main {
     private static void day1() {
         Day1 day1 = new Day1();
         day1.run();
-    }
-
-    private static void day0() {
-        Day0 day0 = new Day0();
-        boolean result1 = day0.run();
-        System.out.println("day 0 : " + result1);
     }
 }

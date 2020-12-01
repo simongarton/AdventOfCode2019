@@ -10,13 +10,17 @@ A slightly recursive calculation where you need to add fuel to get the rocket to
 but then need to add more fuel as by adding fuel the mass of the rocket increased.
 
 ## Day 2
-Instruction pointers : a list of instructions and they control how to jump back and forth.
+IntCode computer : a list of instructions and they control how to jump back and forth.
+Will come back again later.
 
 ## Day 3
 Calculation of distances on a grid with wires. Rather neat.
 
 ## Day 4
 Password combinations.
+
+## Day 5 
+More IntCode computer stuff.
 
 
 **Simon Garton**
