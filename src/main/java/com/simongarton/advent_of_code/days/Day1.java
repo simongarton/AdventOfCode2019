@@ -11,18 +11,19 @@ public class Day1 {
     public long run() {
 
         try {
-            System.out.println("Day 1: The Tyranny of the Rocket Equation");
+            System.out.println("Day 1: The Tyranny of the Rocket Equation\n");
             String filename = "day1.txt";
             File file = Paths.get("data", "day1.txt").toFile();
             List<String> result = Files.readAllLines(Paths.get(file.getAbsolutePath()));
-            System.out.println(result.size() + " lines in " + filename);
             long fuelNeeded = calculateFuelForModule(result);
             System.out.println("Fuel for elves: " + fuelNeeded);
             long totalFuelNeeded = calculateTotalFuel(result);
             System.out.println("Total fuel needed: " + totalFuelNeeded);
+            System.out.println("");
             return totalFuelNeeded;
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
+            System.out.println("");
             return 0;
         }
     }

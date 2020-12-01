@@ -7,7 +7,7 @@ public class Day4 {
 
     public void run() {
 
-        System.out.println("Day 4: Secure Container");
+        System.out.println("Day 4: Secure Container\n");
 
         int low = 347312;
         int high = 805915;
@@ -16,21 +16,23 @@ public class Day4 {
         for (int i = low; i <= high; i++) {
             if (validPassword(i)) {
                 valid++;
-                System.out.println(i);
+                //System.out.println(i);
             }
         }
 
-        System.out.println("\n" + valid);
+        System.out.println("valid passwords " + valid);
 
         valid = 0;
         for (int i = low; i <= high; i++) {
             if (validPassword2(i)) {
                 valid++;
-                System.out.println(i);
+                //System.out.println(i);
             }
         }
 
+        System.out.println("valid password2s " + valid);
         System.out.println("\n" + valid);
+        System.out.println("");
     }
 
     private boolean validPassword(int attempt) {

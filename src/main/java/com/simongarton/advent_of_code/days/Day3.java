@@ -17,10 +17,8 @@ public class Day3 {
 
     public void run() {
         try {
-            System.out.println("Day 3: Crossed Wires");
-            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            String filename = "day3.txt";
-            File file = new File(Objects.requireNonNull(classLoader.getResource(filename)).getFile());
+            System.out.println("Day 3: Crossed Wires\n");
+            File file = Paths.get("data", "day3.txt").toFile();
             List<String> wires = Files.readAllLines(Paths.get(file.getAbsolutePath()));
             wire1 = Arrays.asList(wires.get(0).split(","));
             wire2 = Arrays.asList(wires.get(1).split(","));
@@ -32,8 +30,10 @@ public class Day3 {
             wire2 = Arrays.asList(wires.get(1).split(","));
             mapWiresWithDistance();
             findIntersectionsWithDistance();
+            System.out.println("");
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
+            System.out.println("");
         }
     }
 

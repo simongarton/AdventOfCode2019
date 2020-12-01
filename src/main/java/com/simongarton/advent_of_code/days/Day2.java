@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Day2 {
@@ -16,17 +15,17 @@ public class Day2 {
 
     public void run() {
         try {
-            System.out.println("Day 2: 1202 Program Alarm");
-            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            String filename = "day2.txt";
-            File file = new File(Objects.requireNonNull(classLoader.getResource(filename)).getFile());
+            System.out.println("Day 2: 1202 Program Alarm\n");
+            File file = Paths.get("data", "day2.txt").toFile();
             result = Files.readAllLines(Paths.get(file.getAbsolutePath())).get(0);
             loadProgram();
-            System.out.println(memory.size() + " instructions in " + filename);
+            System.out.println(memory.size() + " instructions.");
             run1202();
             run19690720();
+            System.out.println("");
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
+            System.out.println("");
         }
     }
 
