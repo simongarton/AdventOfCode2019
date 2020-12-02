@@ -21,9 +21,9 @@ public class Day5 {
             File file = Paths.get("data", "day5.txt").toFile();
             result = Files.readAllLines(Paths.get(file.getAbsolutePath())).get(0);
             loadProgram();
-            runProgram();
             System.out.println(memory.size() + " instructions.");
             System.out.println("");
+            runProgram();
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
             System.out.println("");
@@ -43,41 +43,75 @@ public class Day5 {
     private void runProgram() {
         int pointer = 0;
         while (true) {
-            debugProgram();
             String instruction = String.valueOf(memory.get(pointer));
-//            System.out.println("Pointer " + pointer + " Instruction " + instruction);
             Operation operation = new Operation(pointer, instruction);
-//            System.out.println("Operation " + operation);
             if (operation.type == OperationType.HALT) {
                 break;
             }
-//            System.out.println("Memory " + getMemory(operation, memory));
-            int result;
+            int result, first, second, third;
             switch (operation.type) {
                 case ADDITION:
-                    result = operation.get(memory, 1) + operation.get(memory, 2);
+                    first = operation.get(memory, 1);
+                    second = operation.get(memory, 2);
+                    result = first + second;
                     memory.set(memory.get(pointer + 3), result);
-                    System.out.println(pointer + " " + operation.type + " : first " + operation.get(memory, 1)
-                            + " second " + operation.get(memory,2) + " result " + result + " write to " + memory.get(pointer + 3) + " move to " + (pointer + 4));
                     pointer += 4;
                     break;
                 case MULTIPLICATION:
-                    result = operation.get(memory, 1) * operation.get(memory, 2);
-                    memory.set(memory.get(pointer + 3), operation.get(memory, 1) * operation.get(memory, 2));
-                    System.out.println(pointer + " " + operation.type + " : first " + operation.get(memory, 1)
-                            + " second " + operation.get(memory,2) + " result " + result + " write to " + memory.get(pointer + 3) + " move to " + (pointer + 4));
+                    first = operation.get(memory, 1);
+                    second = operation.get(memory, 2);
+                    result = first * second;
+                    memory.set(memory.get(pointer + 3), result);
                     pointer += 4;
                     break;
                 case INPUT:
                     int input = getInput();
                     memory.set(memory.get(pointer + 1), input);
-                    System.out.println(pointer + " " + operation.type + " : got " + input + " write to " + memory.get(pointer + 1) + " move to " + (pointer + 2));
                     pointer += 2;
                     break;
                 case OUTPUT:
                     output(operation.get(memory, 1));
-                    System.out.println(pointer + " " + operation.type + " : output " + memory.get(pointer + 1) + " move to " + (pointer + 2));
                     pointer += 2;
+                    break;
+                case JUMP_IF_TRUE:
+                    first = operation.get(memory, 1);
+                    second = operation.get(memory, 2);
+                    if (first != 0) {
+                        pointer = second;
+                    } else {
+                        pointer += 3;
+                    }
+                    break;
+                case JUMP_IF_FALSE:
+                    first = operation.get(memory, 1);
+                    second = operation.get(memory, 2);
+                    if (first == 0) {
+                        pointer = second;
+                    } else {
+                        pointer += 3;
+                    }
+                    break;
+                case LESS_THAN:
+                    first = operation.get(memory, 1);
+                    second = operation.get(memory, 2);
+                    third = memory.get(pointer + 3);
+                    if (first < second) {
+                        memory.set(third, 1);
+                    } else {
+                        memory.set(third, 0);
+                    }
+                    pointer += 4;
+                    break;
+                case EQUALS:
+                    first = operation.get(memory, 1);
+                    second = operation.get(memory, 2);
+                    third = memory.get(pointer + 3);
+                    if (first == second) {
+                        memory.set(third, 1);
+                    } else {
+                        memory.set(third, 0);
+                    }
+                    pointer += 4;
                     break;
             }
         }
@@ -100,7 +134,7 @@ public class Day5 {
 
     private int getInput() {
         if (true) {
-            return 1;
+            return 5;
         }
         System.out.println("Enter a number, then press return.");
         Scanner in = new Scanner(System.in);
@@ -113,11 +147,15 @@ public class Day5 {
     }
 
     @Getter
-    public static enum OperationType {
+    public enum OperationType {
         ADDITION(1),
         MULTIPLICATION(2),
         INPUT(3),
         OUTPUT(4),
+        JUMP_IF_TRUE(5),
+        JUMP_IF_FALSE(6),
+        LESS_THAN(7),
+        EQUALS(8),
         HALT(99);
 
         private final int operationCode;
