@@ -1,0 +1,12 @@
+digraph NodeGraph {
+    overlap = false 
+    rankdir = LR
+A[color=red]F[color=blue]    "A" -> "B" [color=red]
+    "B" -> "D" [color=red]
+    "D" -> "F" [color=red]
+    "A" -> "C"
+    "C" -> "E"
+    "B" -> "F"
+    "F" -> "E"
+    "D" -> "E"
+}

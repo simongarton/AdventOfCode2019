@@ -1,5 +1,8 @@
 package com.simongarton.advent_of_code.days;
 
+import com.simongarton.advent_of_code.utility.Djikstra;
+import com.simongarton.advent_of_code.utility.Graph;
+import com.simongarton.advent_of_code.utility.Node;
 import lombok.Data;
 
 import java.io.BufferedWriter;
@@ -14,7 +17,8 @@ import java.util.Optional;
 
 public class Day6 {
 
-    public static final String DOT_FILENAME = "solar-system.dot";
+    public static final String SOLAR_SYSTEM_FILENAME = "solar-system.dot";
+    public static final String GRAPH_FILENAME = "solar-system-graph.dot";
     private final List<Body> bodies = new ArrayList<>();
 
     public void run() {
@@ -23,11 +27,31 @@ public class Day6 {
             File file = Paths.get("data", "day6.txt").toFile();
             List<String> lines = Files.readAllLines(Paths.get(file.getAbsolutePath()));
             System.out.println(totalOrbits(lines) + " total orbits.");
-            System.out.println("");
+            System.out.println((shortestPath(lines, "YOU", "SAN") - 2) + " shortest path.");
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
-            System.out.println("");
         }
+    }
+
+    private Integer shortestPath(List<String> lines, String from, String to) {
+        Graph graph = buildGraph(lines);
+        Djikstra djikstra = new Djikstra(graph);
+        djikstra.calculateShortestPathFromSource(graph.getNode(from));
+        graph.explain();
+        graph.writeDotFile(GRAPH_FILENAME,from,to);
+        return graph.getNode(to).getDistance();
+    }
+
+    private Graph buildGraph(List<String> lines) {
+        Graph graph = new Graph();
+        for (String line : lines) {
+            String[] names = line.split("\\)");
+            Node a = graph.getOrCreateNode(names[0]);
+            Node b = graph.getOrCreateNode(names[1]);
+            a.addDestination(b, 1);
+            b.addDestination(a, 1);
+        }
+        return graph;
     }
 
     private long totalOrbits(List<String> lines) {
@@ -73,7 +97,7 @@ public class Day6 {
 
     private void buildDotFile() {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(DOT_FILENAME));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(SOLAR_SYSTEM_FILENAME));
             writer.write("digraph SolarSystem {\n");
             writer.write("    overlap = false \n");
             writer.write("    rankdir = RL\n");
@@ -84,7 +108,7 @@ public class Day6 {
             }
             writer.write("}\n");
             writer.close();
-            System.out.println("wrote graphviz file " + DOT_FILENAME);
+            System.out.println("wrote graphviz file " + SOLAR_SYSTEM_FILENAME);
         } catch (IOException e) {
             e.printStackTrace();
         }
